@@ -42,3 +42,7 @@ class Item(object):
         if self.templater is None:
             return self.content
         return self.templater(self)
+
+    @property
+    def pretty_route(self):
+        return self.route.replace("/index.html", "/")

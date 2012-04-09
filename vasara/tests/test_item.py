@@ -51,3 +51,8 @@ class TestItem(TestCase):
 
         self.item.templater = templater
         self.assertEqual("Hello, test_templater_property!", self.item.templated)
+
+    def test_pretty_route(self):
+        """Ensures that the pretty_route property displays a "prettified" route."""
+        self.item.route = "test/index.html"
+        self.assertEqual("test/", self.item.pretty_route)
