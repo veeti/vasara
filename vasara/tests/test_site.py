@@ -33,8 +33,8 @@ class TestSite(TestCase):
         # Override the index item's route
         self.site.route(r"index", lambda match, item: "index.html")
 
-        self.assertEqual("index.html", self.site.items["index"].route)
-        self.assertEqual("test/test/index.html", self.site.items["test/test"].route)
+        self.assertEqual("index.html", self.site.items["index"].file_route)
+        self.assertEqual("test/test/index.html", self.site.items["test/test"].file_route)
 
     def test_filter(self):
         """Ensures that filters are set properly on items."""

@@ -16,7 +16,7 @@ class Compiler(object):
 
         for key, item in self.site.items.iteritems():
             content = item.templated
-            route = item.route
+            route = item.file_route
 
             path = os.path.join(self.output_path, route)
             path_dir = os.path.dirname(path)

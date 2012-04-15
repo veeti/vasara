@@ -11,7 +11,7 @@ class Item(object):
         self.key = key
         self.site = site
         self.raw_content = raw
-        self.route = route
+        self.file_route = route
         self.filters = []
         self.filtered = False
         self.templater = None
@@ -47,5 +47,5 @@ class Item(object):
         return self.templater(self)
 
     @property
-    def pretty_route(self):
-        return self.route.replace("/index.html", "/")
+    def route(self):
+        return self.file_route.replace("/index.html", "/")

@@ -41,7 +41,7 @@ class Site(object):
 
     def route(self, expression, callable):
         for match, item in self.match(expression):
-            item.route = callable(match, item)
+            item.file_route = callable(match, item)
 
     def filter(self, expression, filter):
         for match, item in self.match(expression):
