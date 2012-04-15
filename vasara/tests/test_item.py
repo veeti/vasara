@@ -1,5 +1,6 @@
 from unittest import TestCase
 from vasara.item import Item
+from vasara.tests.common import build_test_site
 
 TEST_ITEM = """---
 {
@@ -13,7 +14,7 @@ Hello, world! This is the actual content."""
 class TestItem(TestCase):
 
     def setUp(self):
-        self.site = None # TODO
+        self.site = build_test_site()
         self.item = Item(key="test", site=self.site, raw=TEST_ITEM)
 
     def test_content_matcher(self):
