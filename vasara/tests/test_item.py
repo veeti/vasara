@@ -23,6 +23,12 @@ class TestItem(TestCase):
         self.assertEqual(self.item.metadata["list"], [1, 2, 3])
         self.assertEqual(self.item.raw_content, "Hello, world! This is the actual content.")
 
+    def test_no_metadata_content_matcher(self):
+        """Tests handling of items  without metadata."""
+        item = Item(key="unit", site=self.site, raw="Hello, world!")
+        self.assertEqual(0, len(item.metadata))
+        self.assertEqual("Hello, world!", item.raw_content)
+
     def test_filter_not_twice(self):
         """Ensures that items don't filter themselves twice."""
         def increment_filter(item):

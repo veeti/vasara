@@ -15,11 +15,14 @@ class Item(object):
         self.filters = []
         self.filtered = False
         self.templater = None
+        self.metadata = {}
 
-        # Read data
-        matches = MATCHER.match(self.raw_content).groups()
-        self.metadata = json.loads(matches[0])
-        self.raw_content = matches[1]
+        # Read metadata if it exists
+        match = MATCHER.match(self.raw_content)
+        if match and len(match.groups()) == 2:
+            self.metadata = json.loads(match.groups()[0])
+            self.raw_content = match.groups()[1]
+
         self.filtered_content = self.raw_content
 
     def filter(self):
