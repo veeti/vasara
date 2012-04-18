@@ -18,6 +18,10 @@ class Compiler(object):
             content = item.templated
             route = item.file_route
 
+            if route is None:
+                print "Item {} has no route. Skipping.".format(item.key)
+                continue
+
             path = os.path.join(self.output_path, route)
             path_dir = os.path.dirname(path)
 
