@@ -1,5 +1,8 @@
 *.py[co]
 
+# Sphinx
+docs/_build
+
 # Distribute
 *.egg
 *.egg-info
