@@ -62,7 +62,7 @@ When calling ``vsra``, it will look for the ``get_vasara_compiler`` method in th
 
     $ cd ..
     $ vsra
-    $ A site doesn't seem to exist in the working directory. Exiting.
+    A site doesn't seem to exist in the working directory. Exiting.
 
 Adding an item
 --------------
