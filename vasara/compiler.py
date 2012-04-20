@@ -28,6 +28,6 @@ class Compiler(object):
             if not os.path.exists(path_dir):
                 os.makedirs(path_dir)
 
-            file = io.open(path, "w")
+            file = io.open(path, "wb")
             file.write(content)
             file.close()
