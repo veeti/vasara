@@ -1,6 +1,8 @@
 Introductory tutorial
 =====================
 
+.. currentmodule:: vasara
+
 Let's create a simple website with vasara that shows off some of the most basic features.
 
 Creating the site

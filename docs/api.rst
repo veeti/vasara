@@ -1,15 +1,13 @@
 API
 ===
 
-.. class:: Site
+.. automodule:: vasara
 
-   .
+.. autoclass:: Site
+    :members:
 
+.. autoclass:: Item
+    :members:
 
-.. class:: Item
-
-   .
-
-.. class:: Compiler
-
-   .
+.. autoclass:: Compiler
+    :members:

@@ -9,8 +9,10 @@ class Compiler(object):
     def __init__(self, site, output_path):
         self.site = site
         self.output_path = output_path
+        """Absolute path to the output directory in disk."""
 
     def compile(self):
+        """Compiles and writes all the items to disk."""
         if not os.path.exists(self.output_path):
             os.makedirs(self.output_path)
 

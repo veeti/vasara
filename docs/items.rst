@@ -1,6 +1,8 @@
 Items
 =====
 
+.. currentmodule:: vasara
+
 Each page of your site is an **item**. Items are stored in the site's :attr:`~Site.items_path`. When a site is created, that path is automatically scanned for items and they are added to the site's :attr:`~Site.items` dictionary.
 
 Each :class:`Item` has a :attr:`~Item.key`. This key is generated from the item's filesystem path: the file extension is removed.
@@ -30,18 +32,20 @@ Since a route is just an attribute on an item, it can be set manually. For examp
 Using the route helper
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The :class:`Site` has a function called :func:`~Site.route` that lets you easily use regular expressions to apply routes to multiple items. To use :func:`~Site.route`, you need to create a *router function*:
+The :class:`Site` has a function called :meth:`~Site.route` that lets you easily use regular expressions to apply routes to multiple items. To use :meth:`~Site.route`, you need to create a *router function*:
 
+.. currentmodule:: example
 .. function:: router(match, item)
 
     Defines the :attr:`~Item.file_route` for an :class:`Item`.
 
-    :param match: match result against :attr:`Item.key` from :func:`Site.route`
+    :param match: match result against :attr:`Item.key` from :meth:`Site.route`
     :param item: the item being routed
     :returns: :attr:`~Item.file_route` to be set for :class:`Item`
     :rtype: str
+.. currentmodule:: vasara
 
-When :func:`~Site.route` is called, each item of the site is matched against the specified regular expression. If a match is found, the router function is called - and the ``match`` argument contains the ``re`` match object. The ``item`` argument is the :class:`Item`. The router function should return the :attr:`~Item.file_route` for the :class:`Item`.
+When :meth:`~Site.route` is called, each item of the site is matched against the specified regular expression. If a match is found, the router function is called - and the ``match`` argument contains the ``re`` match object. The ``item`` argument is the :class:`Item`. The router function should return the :attr:`~Item.file_route` for the :class:`Item`.
 
 For example:
 
@@ -66,7 +70,7 @@ This is a common style of routing used by many other static site generators.
 
     Since each item has its own directory and its file is called ``index.html``, this means that you can omit the ``index.html`` from the paths completely. This results in nicer URL's like ``http://www.garden-gnomes.example/products/garden-gnome/``.
 
-Applying this router with the :func:`Site.route` function is easy:
+Applying this router with the :meth:`Site.route` function is easy:
 
 .. code-block:: python
 
@@ -77,16 +81,18 @@ Filters
 
 You might need to do some sort of processing on the raw item contents before the item is compiled. For example, a blogger might want to write their posts in Markdown_ instead of raw HTML. This can be accomplished with *filters*.
 
-Each item has a ``list`` of filters called :attr:`Item.filters`. You are free to manipulate this list as you wish, and a helper method like :func:`Site.route` also exists. It's obviously called :func:`Site.filter`.
+Each item has a ``list`` of filters called :attr:`Item.filters`. You are free to manipulate this list as you wish, and a helper method like :meth:`Site.route` also exists. It's obviously called :meth:`Site.filter`.
 
 A filter is just a simple Python function:
 
+.. currentmodule:: example
 .. function:: filter(item)
 
     A function that filters the contents of an :class:`Item`. Should manipulate the :attr:`Item.filtered_content` attribute.
 
     :param item: the item being filtered
     :returns: nothing
+.. currentmodule:: vasara
 
 For example, if we wanted to filter posts using a fictional markup language called reTextDown and its Python module would contain a single function called ``retextdown_text``, we could wrap this function with a filter like this:
 
@@ -118,6 +124,7 @@ Templaters
 
 A website usually has a header and a footer. Instead of duplicating these elements in every single item, we can apply a *templater function* to the items that takes care of it for us.
 
+.. currentmodule:: example
 .. function:: templater(item)
 
     A function that templates the contents of an :class:`Item`.
@@ -125,6 +132,7 @@ A website usually has a header and a footer. Instead of duplicating these elemen
     :param item: the item being templated
     :returns: templated contents
     :rtype: str
+.. currentmodule:: vasara
 
 For example, if we wanted to make a lasting impression on the visitor, we could create a templater like this:
 
@@ -154,7 +162,7 @@ And we're done!
 A note on applying routes and templaters
 ----------------------------------------
 
-If you're using :func:`Site.route`/:func:`~Site.template` to apply your routes and templaters, note that the call order matters. If you call the function twice and the same item is matched twice, the last call will overwrite the first one.
+If you're using :meth:`Site.route`/:meth:`~Site.template` to apply your routes and templaters, note that the call order matters. If you call the function twice and the same item is matched twice, the last call will overwrite the first one.
 
 For example:
 
