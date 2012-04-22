@@ -173,6 +173,33 @@ For example:
 
 Will set ``router_two``'s output as the ``index`` item's route.
 
+Metadata
+--------
+
+vasara supports associating *metadata* with each item. For example, a blog site could store a ``date`` field with each item, which could be used to programmatically find and sort posts from different dates.
+
+Metadata is stored in a JSON object at the beginning of each file. For example:
+
+.. code-block:: text
+
+    ---
+    {
+        "date": "2012-04-22",
+        "hello": "world"
+    }
+    ---
+
+    Hello, world! This is the actual content area of the item.
+
+The section of the item separated by three dashes (``---``) will automatically be picked up by vasara. It will try to parse the string inside as JSON and save the result to :attr:`Item.metadata`. The metadata of this item could then be accessed like this:
+
+.. code-block:: python
+
+    >>> item.metadata["date"]
+    "2012-04-22"
+
+As a practical example, a templater could read an item's ``title`` metadata attribute and set it as the page's HTML ``<title>``.
+
 .. _Markdown: http://daringfireball.net/projects/markdown/
 
 .. _Jinja2: http://jinja.pocoo.org/docs/
