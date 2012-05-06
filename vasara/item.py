@@ -7,9 +7,9 @@ MATCHER = re.compile(r"\A---\s+^(.+?)$\s+---\s*(.*)\Z", re.M | re.S)
 
 class Item(object):
 
-    def __init__(self, key, site, raw, route=None):
-        self.key = key
-        """The item's key."""
+    def __init__(self, filename, site, raw, route=None):
+        self.filename = filename
+        """The item's filename."""
         self.site = site
         """The item's :class:`Site`."""
         self.raw_content = raw

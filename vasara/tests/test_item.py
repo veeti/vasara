@@ -15,7 +15,7 @@ class TestItem(TestCase):
 
     def setUp(self):
         self.site = build_test_site()
-        self.item = Item(key="test", site=self.site, raw=TEST_ITEM)
+        self.item = Item(filename="test", site=self.site, raw=TEST_ITEM)
 
     def test_content_matcher(self):
         """Tests that all metadata and actual content is properly parsed from input."""
@@ -25,7 +25,7 @@ class TestItem(TestCase):
 
     def test_no_metadata_content_matcher(self):
         """Tests handling of items  without metadata."""
-        item = Item(key="unit", site=self.site, raw="Hello, world!")
+        item = Item(filename="unit", site=self.site, raw="Hello, world!")
         self.assertEqual(0, len(item.metadata))
         self.assertEqual("Hello, world!", item.raw_content)
 

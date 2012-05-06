@@ -71,7 +71,7 @@ Adding an item
 
 If we try to compile our site with ``vsra compile``, nothing exciting will happen (yet). This is because we have no items (pages) on our site. Websites usually consist of many pages: for example, a blog's each post would have its own :class:`Item`.
 
-When a new instance of :class:`Site` is created, it automatically scans the specified item path for items and adds them to the site. Each item exists as an instance of :class:`Item`. Let's try this out by creating a new item called ``index`` (each item is identified in your site by its ``key``). Create a new file called ``index.html`` in the ``items`` directory, and write this in it:
+When a new instance of :class:`Site` is created, it automatically scans the specified item path for items and adds them to the site. Each item exists as an instance of :class:`Item`. Let's try this out by creating a new item called ``index.html`` (each item is identified in your site by its ``filename``). Create a new file called ``index.html`` in the ``items`` directory, and write this in it:
 
 .. code-block:: html
 
@@ -80,7 +80,7 @@ When a new instance of :class:`Site` is created, it automatically scans the spec
 However, we aren't done yet. Let's try compiling the site::
 
     $ vsra compile
-    Item index has no route. Skipping.
+    Item index.html has no route. Skipping.
 
 vasara knows that the item is there, but it doesn't know where to put it. We need to add a *route* for it. Since this is the front page of our website, we probably want it to be saved as just ``index.html`` to the root of the output directory.
 
@@ -89,9 +89,9 @@ Open ``__init__.py`` and add this after the site declaration:
 .. code-block:: python
     :linenos:
 
-    site.items["index"].file_route = "index.html"
+    site.items["index.html"].file_route = "index.html"
 
-As mentioned before, each :class:`Item` has its own **key**. This key is automatically generated from its path on the filesystem: the file extension is omitted from the key. All the :class:`Site`'s items are accessible from the ``items`` property.
+As mentioned before, each :class:`Item` has its own **key**: its :attr:`~Item.filename`. All the :class:`Site`'s items are accessible from the ``items`` property.
 
 Compile the site again. If you look at the ``output`` directory, you can see that a file called ``index.html`` now exists in it. Open it: the contents will look very familiar.
 
@@ -108,7 +108,7 @@ Create and open ``items/about.html`` and add some contents to it. For example:
 
     <p>Bob's garden gnomes is a family business. We have been trading for hundreds of years now.</p>
 
-Just like with the ``index`` item, our ``about`` item also needs to be routed somewhere. We could do it the same way we did with ``index``, or we could try out a more powerful routing function in vasara. :class:`Site` has a function called :func:`Site.route`, which lets you use *regular expressions* to match items by their key and apply routes to them.
+Just like with the ``index.html`` item, our ``about.html`` item also needs to be routed somewhere. We could do it the same way we did with ``index``, or we could try out a more powerful routing function in vasara. :class:`Site` has a function called :func:`Site.route`, which lets you use *regular expressions* to match items by their filename and apply routes to them.
 
 .. note::
 
@@ -120,16 +120,16 @@ Just like with the ``index`` item, our ``about`` item also needs to be routed so
     :linenos:
 
     def my_router(match, item):
-        return "{}.html".format(item.key)
+        return item.filename
 
-If you were to associate this router with the ``index`` item, the route it would return would be ``index.html`` - based on the item's key. Of course, since routers are ordinary Python functions, you can do all kinds of complex logic to route your items.
+This is a very simplistic router: it simply routes the file to the same path as it exists in the raw items directory. But since routers are ordinary Python functions, your imagination is the limit with routes.
 
-Let's put this router into use. Remove the route for ``index`` that we added in the last section, and put in this instead:
+Let's put this router into use. Remove the route for ``index.html`` that we added in the last section, and put in this instead:
 
 .. code-block:: python
 
     def my_router(match, item):
-        return "{}.html".format(item.key)
+        return item.filename
 
     site.route(r"(.*)", my_router)
 
@@ -156,7 +156,7 @@ For the purposes of this tutorial, we want to keep things simple and avoid any e
 
 (Hopefully you're familiar enough with Python to recognize ``{}`` as a replacement field. We can use string formatting to replace the ``{}`` with anything we want to.)
 
-We want to compute the result of ``1 + 1`` and replace the ``{}`` in our ``index`` item before it's written to disk. To accomplish this, we can define a ``filter`` function. Filters are very simple, and here's the one that we're going to be using:
+We want to compute the result of ``1 + 1`` and replace the ``{}`` in our ``index.html`` item before it's written to disk. To accomplish this, we can define a ``filter`` function. Filters are very simple, and here's the one that we're going to be using:
 
 .. code-block:: python
 
@@ -171,11 +171,11 @@ But how do we add this filter to our item? Well, there are two ways to do this:
 
 * Use the :func:`Site.filter` function, which works just like :func:`Site.route` does.
 
-We'll pick the first method, since we only want to filter ``index``. Add this to ``__init__.py``:
+We'll pick the first method, since we only want to filter ``index.html``. Add this to ``__init__.py``:
 
 .. code-block:: python
 
-    site.items["index"].filters.append(calculate_one_plus_one)
+    site.items["index.html"].filters.append(calculate_one_plus_one)
 
 Notice that each :class:`Item` has a list of filters. This is an ordinary Python list and you can do whatever you want to with it.
 

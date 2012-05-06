@@ -3,13 +3,7 @@ Items
 
 .. currentmodule:: vasara
 
-Each page of your site is an **item**. Items are stored in the site's :attr:`~Site.items_path`. When a site is created, that path is automatically scanned for items and they are added to the site's :attr:`~Site.items` dictionary.
-
-Each :class:`Item` has a :attr:`~Item.key`. This key is generated from the item's filesystem path: the file extension is removed.
-
-.. warning::
-
-    vasara is a pre-alpha tool. Key generation may change (and probably will due to file extensions) in the future.
+Each page of your site is an **item**. Items are stored in the site's :attr:`~Site.items_path`. When a site is created, that path is automatically scanned for items and they are added to the site's :attr:`~Site.items` dictionary. :attr:`Site.items` stores items by their filename (which is also accessible as :attr:`Item.filename`).
 
 Note that nothing prevents you from doing all sorts of magic with your code and creating :class:`Item` objects manually and adding them to the site. For example, category pages for blog posts could be generated dynamically.
 
@@ -27,7 +21,7 @@ Since a route is just an attribute on an item, it can be set manually. For examp
 
 .. code-block:: python
 
-    site.items["index"].file_route = "hello_world.html"
+    site.items["index.html"].file_route = "hello_world.html"
 
 Using the route helper
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -39,7 +33,7 @@ The :class:`Site` has a function called :meth:`~Site.route` that lets you easily
 
     Defines the :attr:`~Item.file_route` for an :class:`Item`.
 
-    :param match: match result against :attr:`Item.key` from :meth:`Site.route`
+    :param match: match result against :attr:`Item.filename` from :meth:`Site.route`
     :param item: the item being routed
     :returns: :attr:`~Item.file_route` to be set for :class:`Item`
     :rtype: str
@@ -52,10 +46,12 @@ For example:
 .. code-block:: python
 
     def my_router(match, item):
-        if item.key is not "index":
-            return "{}/index.html".format(item.key)
-        else:
-            return "index.html"
+        import os
+        if item.filename == "index.html":
+            return item.filename
+        return "{}/index.html".format(os.path.splitext(item.filename)[0])
+
+(``os.path.splitext`` is used to remove the trailing file extension from the item's filename - for example, ``products/garden-gnome.html`` becomes ``products/garden-gnome``.)
 
 Depending on the level of complexity that you want to have with your site's routers, a simple router like this could work for all of your items. Here's an example of the paths it would map for different items:
 
@@ -112,7 +108,7 @@ We can add the filter to our items:
 .. code-block:: python
 
     # Manipulate the filters directly
-    site.items["index"].filters.append(retextdown_filter)
+    site.items["index.html"].filters.append(retextdown_filter)
 
     # Use Site.filter
     site.filter(r".*", retextdown_filter)
@@ -146,7 +142,7 @@ And apply it (you know this already):
 .. code-block:: python
 
     # Manipulate the templater directly
-    site.items["index"].templater = my_templater
+    site.items["index.html"].templater = my_templater
 
     # Use Site.template
     site.template(r".*", my_templater)
@@ -168,8 +164,8 @@ For example:
 
 .. code-block:: python
 
-    site.route(r"index", router_one)
-    site.route(r"index", router_two)
+    site.route(r"index.html", router_one)
+    site.route(r"index.html", router_two)
 
 Will set ``router_two``'s output as the ``index`` item's route.
 

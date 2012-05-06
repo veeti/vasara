@@ -21,7 +21,7 @@ class Compiler(object):
             route = item.file_route
 
             if route is None:
-                print "Item {} has no route. Skipping.".format(item.key)
+                print "Item {} has no route. Skipping.".format(item.filename)
                 continue
 
             path = os.path.join(self.output_path, route)

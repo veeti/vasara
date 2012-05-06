@@ -25,7 +25,7 @@ class TestCompiler(TestCase):
 
     def test_routing(self):
         """Ensures that compilation results are routed properly."""
-        self.site.route(r"(.*)", lambda match, item: "{}/index.html".format(match.group(1)))
+        self.site.route(r"(.*)", lambda match, item: "{}/index.html".format(os.path.splitext(match.group(1))[0]))
         self.site.route(r"index", lambda match, item: "index.html")
         self.compiler.compile()
 
